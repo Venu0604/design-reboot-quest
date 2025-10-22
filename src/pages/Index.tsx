@@ -1,108 +1,100 @@
-import { DashboardHeader } from "@/components/DashboardHeader";
-import { ModuleCard } from "@/components/ModuleCard";
-import { 
-  TrendingUp, 
-  Upload, 
-  Phone, 
-  Terminal, 
-  BarChart3, 
-  Target,
-  Activity
-} from "lucide-react";
+import { Card } from "@/components/ui/card";
+import { CheckCircle, XCircle, Clock, FileCheck, TrendingUp, Users } from "lucide-react";
 
 const Index = () => {
-  const modules = [
+  // Mock data for final status numbers - in production this would come from your database
+  const statusData = [
     {
-      title: "Google Ads Summary",
-      description: "Process and analyze Google Ads campaigns with MIS data integration",
+      label: "Approved",
+      count: 1234,
+      icon: CheckCircle,
+      color: "text-green-500",
+      bgColor: "bg-green-500/10"
+    },
+    {
+      label: "Rejected",
+      count: 456,
+      icon: XCircle,
+      color: "text-red-500",
+      bgColor: "bg-red-500/10"
+    },
+    {
+      label: "Sanctioned",
+      count: 892,
+      icon: FileCheck,
+      color: "text-blue-500",
+      bgColor: "bg-blue-500/10"
+    },
+    {
+      label: "Pending",
+      count: 234,
+      icon: Clock,
+      color: "text-yellow-500",
+      bgColor: "bg-yellow-500/10"
+    },
+    {
+      label: "Total Applications",
+      count: 2816,
+      icon: Users,
+      color: "text-purple-500",
+      bgColor: "bg-purple-500/10"
+    },
+    {
+      label: "Conversion Rate",
+      count: "43.8%",
       icon: TrendingUp,
-      href: "/google-summary"
-    },
-    {
-      title: "Campaign Analysis",
-      description: "Analyze campaign performance across multiple channels with cost tracking",
-      icon: Target,
-      href: "/campaign-analysis"
-    },
-    {
-      title: "Status Analysis",
-      description: "Track final decision counts with creation and decision date filters",
-      icon: BarChart3,
-      href: "/status-analysis"
-    },
-    {
-      title: "MIS Upload",
-      description: "Upload and manage MIS data from Excel/CSV files to database",
-      icon: Upload,
-      href: "/mis-upload"
-    },
-    {
-      title: "Phone Numbers",
-      description: "Extract and map phone numbers from campaign data using LC2 codes",
-      icon: Phone,
-      href: "/phone-numbers"
-    },
-    {
-      title: "SQL Console",
-      description: "Execute SQL queries and export data directly from the database",
-      icon: Terminal,
-      href: "/sql-console"
+      color: "text-primary",
+      bgColor: "bg-primary/10"
     }
   ];
 
   return (
-    <div className="min-h-screen bg-background">
-      <DashboardHeader />
-      
-      <main className="container mx-auto px-6 py-8">
-        <div className="mb-8 animate-fade-in">
-          <div className="flex items-center gap-3 mb-2">
-            <Activity className="w-8 h-8 text-primary" />
-            <h2 className="text-3xl font-bold text-foreground">Analytics Modules</h2>
-          </div>
-          <p className="text-muted-foreground">
-            Select a module to access campaign analytics, data processing, and reporting tools
-          </p>
-        </div>
+    <main className="flex-1 p-6 space-y-6">
+      <div className="animate-fade-in">
+        <h2 className="text-3xl font-bold text-foreground mb-2">Dashboard Overview</h2>
+        <p className="text-muted-foreground">
+          Real-time analytics and final decision status tracking
+        </p>
+      </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate-fade-in">
-          {modules.map((module, index) => (
-            <div
-              key={module.href}
-              style={{ animationDelay: `${index * 100}ms` }}
-              className="animate-fade-in"
-            >
-              <ModuleCard {...module} />
-            </div>
-          ))}
-        </div>
-
-        <div className="mt-12 p-6 rounded-lg bg-card border border-border animate-fade-in">
-          <div className="flex items-start gap-4">
-            <div className="flex-shrink-0 w-10 h-10 rounded-full gradient-primary flex items-center justify-center">
-              <Activity className="w-5 h-5 text-white" />
-            </div>
-            <div>
-              <h3 className="text-lg font-semibold text-foreground mb-2">System Status</h3>
-              <div className="space-y-2 text-sm">
-                <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 rounded-full bg-green-500"></div>
-                  <span className="text-muted-foreground">Database: Connected</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 rounded-full bg-green-500"></div>
-                  <span className="text-muted-foreground">Analytics Engine: Active</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 rounded-full bg-green-500"></div>
-                  <span className="text-muted-foreground">Data Pipeline: Running</span>
-                </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate-fade-in">
+        {statusData.map((status, index) => (
+          <Card
+            key={status.label}
+            className="p-6 gradient-card border-border hover:shadow-lg transition-shadow"
+            style={{ animationDelay: `${index * 100}ms` }}
+          >
+            <div className="flex items-start justify-between">
+              <div className="space-y-2">
+                <p className="text-sm text-muted-foreground font-medium">{status.label}</p>
+                <p className="text-3xl font-bold text-foreground">{status.count}</p>
+              </div>
+              <div className={`p-3 rounded-lg ${status.bgColor}`}>
+                <status.icon className={`w-6 h-6 ${status.color}`} />
               </div>
             </div>
+          </Card>
+        ))}
+      </div>
+
+      <Card className="p-6 gradient-card border-border animate-fade-in">
+        <h3 className="text-lg font-semibold text-foreground mb-4">System Status</h3>
+        <div className="space-y-3">
+          <div className="flex items-center gap-3">
+            <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+            <span className="text-sm text-muted-foreground">Database: Connected</span>
+          </div>
+          <div className="flex items-center gap-3">
+            <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+            <span className="text-sm text-muted-foreground">Analytics Engine: Active</span>
+          </div>
+          <div className="flex items-center gap-3">
+            <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+            <span className="text-sm text-muted-foreground">Data Pipeline: Running</span>
           </div>
         </div>
-      </main>
-    </div>
+      </Card>
+    </main>
   );
 };
 
